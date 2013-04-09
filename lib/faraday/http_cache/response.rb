@@ -148,7 +148,11 @@ module Faraday
       #
       # Returns the Time object, or nil if the header isn't present.
       def expires
-        headers['Expires'] && Time.httpdate(headers['Expires'])
+        begin
+          headers['Expires'] && Time.httpdate(headers['Expires'])
+        rescue ArgumentError
+          nil
+        end
       end
 
       # Internal: Gets the 'CacheControl' object.
